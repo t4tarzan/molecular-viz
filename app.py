@@ -12,12 +12,16 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS to reduce sidebar width
+# Custom CSS to reduce sidebar width and add right margin
 st.markdown("""
 <style>
     [data-testid="stSidebar"][aria-expanded="true"]{
-        min-width: 250px;
-        max-width: 250px;
+        min-width: 220px;
+        max-width: 220px;
+        margin-left: 20px;
+    }
+    [data-testid="stSidebar"][aria-expanded="false"]{
+        margin-left: 20px;
     }
 </style>
 """, unsafe_allow_html=True)
