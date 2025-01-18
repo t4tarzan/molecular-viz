@@ -7,8 +7,8 @@ import sys
 # Add the src directory to Python path
 sys.path.append(str(Path(__file__).parent))
 
-from model.predictor import MolecularPropertyPredictor
-from visualization.mol_viewer import MoleculeViewer
+from src.model.predictor import MolecularPropertyPredictor
+from src.visualization.mol_viewer import MoleculeViewer
 import py3Dmol
 
 # Page config
