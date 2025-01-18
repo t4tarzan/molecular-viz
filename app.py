@@ -82,7 +82,9 @@ except FileNotFoundError:
         'Molecule': ['Methane', 'Ethanol', 'Benzene', 'Acetone'],
         'SMILES': ['C', 'CCO', 'C1=CC=CC=C1', 'CC(=O)C'],
         'Polarity': ['Non-polar', 'Polar', 'Non-polar', 'Polar'],
-        'Solubility': ['Insoluble', 'Soluble', 'Insoluble', 'Soluble']
+        'Solubility': ['Insoluble', 'Soluble', 'Insoluble', 'Soluble'],
+        'Reactivity': ['Low', 'Medium', 'High', 'Low'],
+        'Stability': ['High', 'Medium', 'Low', 'High']
     })
 
 # Initialize predictor with fallback data
@@ -91,8 +93,12 @@ if 'predictor' not in st.session_state:
     # Always fit with the current data, whether from file or fallback
     st.session_state.predictor.fit(
         data['SMILES'].values,
-        data['Polarity'].values,
-        data['Solubility'].values
+        {
+            'polarity': data['Polarity'].values,
+            'solubility': data['Solubility'].values,
+            'reactivity': data['Reactivity'].values,
+            'stability': data['Stability'].values
+        }
     )
 
 # Title and description
@@ -173,29 +179,29 @@ with col2:
     st.header("Properties")
     
     # Make predictions
-    polarity, solubility = st.session_state.predictor.predict(smiles)
-    confidence_pol, confidence_sol = st.session_state.predictor.predict_proba(smiles)
+    predictions = st.session_state.predictor.predict(smiles)
+    confidence_scores = st.session_state.predictor.predict_proba(smiles)
     
     # Property cards with styling
-    st.markdown(
-        f"""
-        <div class="property-card">
-            <p class="property-title">POLARITY</p>
-            <p class="property-value">{polarity}</p>
-            <div class="confidence-bar">
-                <div class="confidence-fill" style="width: {confidence_pol}%;"></div>
+    properties_order = ['polarity', 'solubility', 'reactivity', 'stability']
+    property_names = {
+        'polarity': 'POLARITY',
+        'solubility': 'SOLUBILITY',
+        'reactivity': 'REACTIVITY',
+        'stability': 'STABILITY'
+    }
+    
+    for prop in properties_order:
+        st.markdown(
+            f"""
+            <div class="property-card">
+                <p class="property-title">{property_names[prop]}</p>
+                <p class="property-value">{predictions[prop]}</p>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: {confidence_scores[prop]}%;"></div>
+                </div>
+                <p class="confidence-text">Confidence: {confidence_scores[prop]:.1f}%</p>
             </div>
-            <p class="confidence-text">Confidence: {confidence_pol:.1f}%</p>
-        </div>
-        
-        <div class="property-card">
-            <p class="property-title">SOLUBILITY</p>
-            <p class="property-value">{solubility}</p>
-            <div class="confidence-bar">
-                <div class="confidence-fill" style="width: {confidence_sol}%;"></div>
-            </div>
-            <p class="confidence-text">Confidence: {confidence_sol:.1f}%</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+            """,
+            unsafe_allow_html=True
+        )

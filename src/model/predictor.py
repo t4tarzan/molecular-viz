@@ -7,10 +7,20 @@ import warnings
 
 class MolecularPropertyPredictor:
     def __init__(self):
-        self.polarity_model = RandomForestClassifier(n_estimators=100, random_state=42)
-        self.solubility_model = RandomForestClassifier(n_estimators=100, random_state=42)
-        self.polarity_encoder = LabelEncoder()
-        self.solubility_encoder = LabelEncoder()
+        # Initialize models for each property
+        self.models = {
+            'polarity': RandomForestClassifier(n_estimators=100, random_state=42),
+            'solubility': RandomForestClassifier(n_estimators=100, random_state=42),
+            'reactivity': RandomForestClassifier(n_estimators=100, random_state=42),
+            'stability': RandomForestClassifier(n_estimators=100, random_state=42)
+        }
+        # Initialize label encoders
+        self.encoders = {
+            'polarity': LabelEncoder(),
+            'solubility': LabelEncoder(),
+            'reactivity': LabelEncoder(),
+            'stability': LabelEncoder()
+        }
     
     def _get_fingerprint(self, smiles):
         """Generate Morgan fingerprint for a molecule."""
@@ -22,7 +32,7 @@ class MolecularPropertyPredictor:
             warnings.simplefilter("ignore")
             return list(AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=1024))
     
-    def fit(self, smiles_list, polarity_labels, solubility_labels):
+    def fit(self, smiles_list, labels_dict):
         """Train the models on the provided data."""
         # Generate fingerprints
         fingerprints = []
@@ -37,38 +47,40 @@ class MolecularPropertyPredictor:
         if not fingerprints:
             raise ValueError("No valid molecules found in the training data")
         
-        # Convert labels
-        polarity_labels = self.polarity_encoder.fit_transform(polarity_labels[valid_indices])
-        solubility_labels = self.solubility_encoder.fit_transform(solubility_labels[valid_indices])
-        
-        # Train models
-        self.polarity_model.fit(fingerprints, polarity_labels)
-        self.solubility_model.fit(fingerprints, solubility_labels)
+        # Train models for each property
+        for prop in self.models.keys():
+            if prop in labels_dict:
+                # Convert labels
+                labels = self.encoders[prop].fit_transform(
+                    [labels_dict[prop][i] for i in valid_indices]
+                )
+                # Train model
+                self.models[prop].fit(fingerprints, labels)
     
     def predict(self, smiles):
-        """Predict properties for a single SMILES string."""
+        """Predict all properties for a single SMILES string."""
         fingerprint = self._get_fingerprint(smiles)
         if fingerprint is None:
-            return None, None
+            return {prop: None for prop in self.models.keys()}
         
-        # Make predictions
-        polarity_pred = self.polarity_encoder.inverse_transform(
-            self.polarity_model.predict([fingerprint])
-        )[0]
-        solubility_pred = self.solubility_encoder.inverse_transform(
-            self.solubility_model.predict([fingerprint])
-        )[0]
+        predictions = {}
+        for prop in self.models.keys():
+            pred = self.encoders[prop].inverse_transform(
+                self.models[prop].predict([fingerprint])
+            )[0]
+            predictions[prop] = pred
         
-        return polarity_pred, solubility_pred
+        return predictions
     
     def predict_proba(self, smiles):
         """Get prediction probabilities for a single SMILES string."""
         fingerprint = self._get_fingerprint(smiles)
         if fingerprint is None:
-            return 0.0, 0.0
+            return {prop: 0.0 for prop in self.models.keys()}
         
-        # Get probabilities
-        polarity_proba = np.max(self.polarity_model.predict_proba([fingerprint])) * 100
-        solubility_proba = np.max(self.solubility_model.predict_proba([fingerprint])) * 100
+        probabilities = {}
+        for prop in self.models.keys():
+            proba = np.max(self.models[prop].predict_proba([fingerprint])) * 100
+            probabilities[prop] = proba
         
-        return polarity_proba, solubility_proba
+        return probabilities
