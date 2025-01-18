@@ -4,6 +4,24 @@ import pandas as pd
 from pathlib import Path
 import sys
 
+# Page config must be the first Streamlit command
+st.set_page_config(
+    page_title="AI Molecular Property Visualizer",
+    page_icon="🧬",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Custom CSS to reduce sidebar width
+st.markdown("""
+<style>
+    [data-testid="stSidebar"][aria-expanded="true"]{
+        min-width: 250px;
+        max-width: 250px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Add src directory to path
 root_dir = Path(__file__).parent
 sys.path.append(str(root_dir))
@@ -11,14 +29,6 @@ sys.path.append(str(root_dir))
 from src.model.predictor import MolecularPropertyPredictor
 from src.visualization.mol_viewer import MoleculeViewer
 import py3Dmol
-
-# Page config
-st.set_page_config(
-    page_title="AI Molecular Property Visualizer",
-    page_icon="🧬",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
 
 # Load data
 data_path = root_dir.parent / 'data' / 'molecules.csv'
