@@ -1,0 +1,11 @@
+Molecule,SMILES,Polarity,Solubility
+Methane,C,Non-Polar,Insoluble
+Ethanol,CCO,Polar,Soluble
+Benzene,C1=CC=CC=C1,Non-Polar,Insoluble
+Acetic Acid,CC(=O)O,Polar,Soluble
+Acetylene,C#C,Non-Polar,Insoluble
+Water,O,Polar,Soluble
+Ammonia,N,Polar,Soluble
+Propane,CCC,Non-Polar,Insoluble
+Glucose,C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O,Polar,Soluble
+Chloroform,ClC(Cl)Cl,Non-Polar,Insoluble
