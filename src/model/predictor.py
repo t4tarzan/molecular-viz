@@ -1,8 +1,9 @@
 from rdkit import Chem
-from rdkit.Chem import AllChem, rdMolDescriptors
+from rdkit.Chem import AllChem
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
+import warnings
 
 class MolecularPropertyPredictor:
     def __init__(self):
@@ -10,16 +11,16 @@ class MolecularPropertyPredictor:
         self.solubility_model = RandomForestClassifier(n_estimators=100, random_state=42)
         self.polarity_encoder = LabelEncoder()
         self.solubility_encoder = LabelEncoder()
-        # Initialize Morgan fingerprint generator
-        self.morgan_gen = rdMolDescriptors.GetMorganGenerator(2, 1024)
     
     def _get_fingerprint(self, smiles):
         """Generate Morgan fingerprint for a molecule."""
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             return None
-        # Use Morgan Generator instead of direct fingerprint calculation
-        return list(self.morgan_gen.GetFingerprint(mol))
+        # Suppress deprecation warning
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            return list(AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=1024))
     
     def fit(self, smiles_list, polarity_labels, solubility_labels):
         """Train the models on the provided data."""
