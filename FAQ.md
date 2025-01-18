@@ -142,3 +142,75 @@ A: Yes, through:
 3. Educational content
 4. Feature suggestions
 5. Bug reports
+
+Here's how each molecule should look in both stick and sphere representations, with standard chemical coloring:
+
+Methane (CH₄)
+Formula: CH₄
+Stick: Central carbon (dark gray) with 4 hydrogens (white) in tetrahedral arrangement
+Sphere: Gray carbon sphere with 4 smaller white hydrogen spheres
+Ethane (C₂H₆)
+Formula: CH₃-CH₃
+Stick: Two carbons (dark gray) connected by single bond, each with 3 hydrogens (white)
+Sphere: Two gray carbon spheres with 6 white hydrogen spheres
+Ethene (C₂H₄)
+Formula: CH₂=CH₂
+Stick: Two carbons (dark gray) connected by double bond, each with 2 hydrogens (white)
+Sphere: Two gray carbon spheres closer together (double bond), with 4 white hydrogen spheres
+Ethanol (C₂H₅OH)
+Formula: CH₃-CH₂-OH
+Stick: Two carbons (dark gray), oxygen (red) at end, hydrogens (white)
+Sphere: Two gray carbon spheres, one red oxygen sphere, white hydrogens
+Benzene (C₆H₆)
+Formula: Hexagonal ring with alternating double bonds
+Stick: Six carbons (dark gray) in hexagon with alternating double bonds, one hydrogen on each
+Sphere: Six gray carbon spheres in hexagon, six white hydrogen spheres
+Acetic Acid (CH₃COOH)
+Formula: CH₃-C(=O)-OH
+Stick: Two carbons (dark gray), double-bonded oxygen (red), OH group
+Sphere: Two gray carbons, two red oxygens (one larger for double bond), white hydrogens
+Acetylene (C₂H₂)
+Formula: HC≡CH
+Stick: Two carbons (dark gray) with triple bond, one hydrogen each
+Sphere: Two gray carbons very close (triple bond), two white hydrogens
+Water (H₂O)
+Formula: H₂O
+Stick: Central oxygen (red) with two hydrogens (white)
+Sphere: Large red oxygen sphere, two smaller white hydrogen spheres
+Ammonia (NH₃)
+Formula: NH₃
+Stick: Central nitrogen (blue) with three hydrogens (white)
+Sphere: Blue nitrogen sphere with three white hydrogen spheres
+Propane (C₃H₈)
+Formula: CH₃-CH₂-CH₃
+Stick: Three carbons (dark gray) in chain, each with hydrogens (white)
+Sphere: Three gray carbon spheres with eight white hydrogen spheres
+Glucose (C₆H₁₂O₆)
+Formula: Complex ring structure
+Stick: Six carbons (dark gray) in ring, oxygens (red), hydrogens (white)
+Sphere: Gray carbon spheres forming ring, red oxygen spheres, white hydrogens
+Chloroform (CHCl₃)
+Formula: CHCl₃
+Stick: Central carbon (dark gray) with three chlorines (green) and one hydrogen (white)
+Sphere: Central gray carbon sphere, three large green chlorine spheres, one white hydrogen
+Phenol (C₆H₅OH)
+Formula: Benzene ring with OH group
+Stick: Benzene ring (dark gray) with OH group (red oxygen)
+Sphere: Six gray carbons in ring, red oxygen, white hydrogens
+Acetaldehyde (CH₃CHO)
+Formula: CH₃-CH=O
+Stick: Two carbons (dark gray), double-bonded oxygen (red), hydrogens (white)
+Sphere: Two gray carbons, one red oxygen, white hydrogens
+Standard Colors:
+
+Carbon (C): Dark gray (#404040)
+Hydrogen (H): White (#FFFFFF)
+Oxygen (O): Red (#FF0000)
+Nitrogen (N): Blue (#0000FF)
+Chlorine (Cl): Green (#00FF00)
+Bond Representations:
+
+Single bond: Single stick
+Double bond: Two parallel sticks
+Triple bond: Three parallel sticks
+Aromatic: Alternating single-double bonds in ring
