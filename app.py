@@ -4,8 +4,9 @@ import pandas as pd
 from pathlib import Path
 import sys
 
-# Add the src directory to Python path
-sys.path.append(str(Path(__file__).parent))
+# Add src directory to path
+root_dir = Path(__file__).parent
+sys.path.append(str(root_dir))
 
 from src.model.predictor import MolecularPropertyPredictor
 from src.visualization.mol_viewer import MoleculeViewer
@@ -15,14 +16,27 @@ import py3Dmol
 st.set_page_config(
     page_title="AI Molecular Property Visualizer",
     page_icon="🧬",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
+
+# Load data
+data_path = root_dir.parent / 'data' / 'molecules.csv'
+try:
+    data = pd.read_csv(data_path)
+except FileNotFoundError:
+    # Fallback data if file not found
+    data = pd.DataFrame({
+        'Molecule': ['Methane', 'Ethanol', 'Benzene', 'Acetone'],
+        'SMILES': ['C', 'CCO', 'C1=CC=CC=C1', 'CC(=O)C'],
+        'Polarity': ['Non-polar', 'Polar', 'Non-polar', 'Polar'],
+        'Solubility': ['Insoluble', 'Soluble', 'Insoluble', 'Soluble']
+    })
 
 # Initialize session state
 if 'predictor' not in st.session_state:
     st.session_state.predictor = MolecularPropertyPredictor()
     # Load and train the model
-    data = pd.read_csv(Path(__file__).parent.parent / 'data/molecules.csv')
     st.session_state.predictor.fit(
         data['SMILES'].values,
         data['Polarity'].values,
@@ -44,7 +58,6 @@ with st.sidebar:
     )
     
     if input_type == "Select from database":
-        data = pd.read_csv(Path(__file__).parent.parent / 'data/molecules.csv')
         molecule_name = st.selectbox(
             "Select a molecule:",
             data['Molecule'].tolist()
