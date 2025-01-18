@@ -4,9 +4,10 @@ A Streamlit-based web application that uses AI to predict and visualize molecula
 
 ## Features
 - 3D molecular visualization using RDKit and 3Dmol.js
-- AI-powered prediction of molecular properties (polarity and solubility)
+- AI-powered prediction of molecular properties (polarity, solubility, reactivity, and stability)
 - Interactive molecule selection and SMILES input
 - Real-time property predictions with confidence scores
+- Multiple visualization styles: stick, sphere, and structure views
 
 ## Installation
 ```bash
@@ -39,39 +40,36 @@ molecular-viz/
 │   │   └── predictor.py   # ML model for property prediction
 │   └── visualization/
 │       └── mol_viewer.py  # 3D molecule visualization
+├── projectcode.md         # Detailed code documentation
+├── FAQ.md                 # Frequently Asked Questions
 └── requirements.txt       # Project dependencies
 ```
 
-## Rollback Version
-Latest working version: commit `363911f` (2025-01-19)
+## Rollback Versions
+Latest stable version: commit `fcaa34c` (2025-01-19)
 Features:
+- Enhanced visualization styles:
+  - Stick view (bonds with small atoms)
+  - Sphere view (space-filling)
+  - Structure view (combined stick and sphere)
+- Fixed 3D coordinate generation
+- Improved property predictions:
+  - Polarity
+  - Solubility
+  - Reactivity
+  - Stability
 - Proper sidebar width and layout
-- Working 3D visualization for stick and sphere modes
-- Improved property predictions UI:
-  - Compact cards with progress bars
-  - Visual confidence indicators
-  - Optimized spacing and typography
-- Clean code organization
+- Working molecule visualization
+- Property cards with confidence bars
 
-To rollback to this version:
-```bash
-git reset --hard 363911f
-git clean -fd
-```
-
-## Development
-The application is built using:
-- Streamlit for the web interface
-- RDKit for molecular processing
-- scikit-learn for ML predictions
-- 3Dmol.js for 3D visualization
-
-## Deployment
-The app is deployed on Streamlit Cloud and automatically updates when changes are pushed to the main branch.
+Previous stable version: commit `363911f` (2025-01-19)
+Features:
+- Basic visualization modes
+- Initial property predictions
+- Sidebar layout
 
 ## Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Feel free to open issues or submit pull requests. Please ensure that any new features maintain compatibility with the existing visualization and prediction functionality.
+
+## License
+MIT License - see LICENSE file for details
