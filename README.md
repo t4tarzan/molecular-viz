@@ -1,55 +1,74 @@
-# Molecular Property Visualizer
+# AI-Powered Molecular Property Visualization
 
-An AI-powered molecular visualization tool that predicts and visualizes molecular properties, specifically polarity and solubility. Built with Streamlit, RDKit, and py3Dmol.
+A Streamlit-based web application that uses AI to predict and visualize molecular properties.
 
 ## Features
+- 3D molecular visualization using RDKit and 3Dmol.js
+- AI-powered prediction of molecular properties (polarity and solubility)
+- Interactive molecule selection and SMILES input
+- Real-time property predictions with confidence scores
 
-- **3D Molecular Visualization**: Interactive 3D visualization of molecular structures
-- **Property Prediction**: AI-powered prediction of molecular properties
-  - Polarity (Polar/Non-polar)
-  - Solubility (Soluble/Insoluble)
-- **Multiple Input Methods**:
-  - Select from pre-defined molecules
-  - Input custom SMILES strings
-- **Visualization Options**:
-  - Stick model
-  - Space-filling (sphere) model
-  - Cartoon representation
+## Installation
+```bash
+git clone https://github.com/t4tarzan/molecular-viz.git
+cd molecular-viz
+pip install -r requirements.txt
+```
 
-## Live Demo
+## Usage
+```bash
+streamlit run app.py
+```
 
-Visit the live application at: [Your Streamlit App URL]
+## Dependencies
+- streamlit>=1.28.0
+- rdkit>=2023.3.1
+- scikit-learn>=1.0.2
+- pandas>=1.3.0
+- py3Dmol>=2.0.0
+- matplotlib>=3.4.3
 
-## Local Development
+## Project Structure
+```
+molecular-viz/
+├── app.py                 # Main Streamlit application
+├── data/
+│   └── molecules.csv      # Dataset of molecules and properties
+├── src/
+│   ├── model/
+│   │   └── predictor.py   # ML model for property prediction
+│   └── visualization/
+│       └── mol_viewer.py  # 3D molecule visualization
+└── requirements.txt       # Project dependencies
+```
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/t4tarzan/molecular-viz.git
-   cd molecular-viz
-   ```
+## Rollback Version
+Latest working version: commit `41142f1` (2025-01-19)
+Features:
+- Proper sidebar width and layout
+- Working 3D visualization for stick and sphere modes
+- Correct property predictions
+- Clean code organization
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+To rollback to this version:
+```bash
+git reset --hard 41142f1
+git clean -fd
+```
 
-3. Run the application:
-   ```bash
-   streamlit run app.py
-   ```
+## Development
+The application is built using:
+- Streamlit for the web interface
+- RDKit for molecular processing
+- scikit-learn for ML predictions
+- 3Dmol.js for 3D visualization
 
-## Tech Stack
-
-- **Frontend**: Streamlit
-- **Molecular Processing**: RDKit
-- **3D Visualization**: py3Dmol
-- **Machine Learning**: scikit-learn
-- **Data Processing**: pandas
+## Deployment
+The app is deployed on Streamlit Cloud and automatically updates when changes are pushed to the main branch.
 
 ## Contributing
-
-Feel free to open issues or submit pull requests for any improvements.
-
-## License
-
-MIT License
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
