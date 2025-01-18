@@ -12,17 +12,53 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS to adjust column widths
+# Custom CSS to adjust column widths and property cards
 st.markdown("""
 <style>
     [data-testid="column"] {
-        width: calc(25% - 1rem) !important;
-        flex: 1 1 calc(25% - 1rem) !important;
-        min-width: 220px !important;
+        width: calc(20% - 1rem) !important;
+        flex: 1 1 calc(20% - 1rem) !important;
+        min-width: 200px !important;
     }
     [data-testid="column"]:first-child {
-        width: 75% !important;
-        flex: 1 1 75% !important;
+        width: 80% !important;
+        flex: 1 1 80% !important;
+    }
+    .property-card {
+        background-color: #1E1E1E;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 8px 0;
+    }
+    .property-title {
+        color: #B0B0B0;
+        font-size: 0.9em;
+        margin: 0;
+        font-weight: 600;
+    }
+    .property-value {
+        color: #FFFFFF;
+        font-size: 1.2em;
+        margin: 4px 0;
+        font-weight: 500;
+    }
+    .confidence-bar {
+        width: 100%;
+        height: 4px;
+        background-color: #2D2D2D;
+        border-radius: 2px;
+        margin: 8px 0;
+    }
+    .confidence-fill {
+        height: 100%;
+        background-color: #4CAF50;
+        border-radius: 2px;
+        transition: width 0.3s ease;
+    }
+    .confidence-text {
+        color: #B0B0B0;
+        font-size: 0.8em;
+        margin: 2px 0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -134,36 +170,32 @@ with col1:
         st.error(f"Error in 3D visualization: {str(e)}")
 
 with col2:
-    st.header("Property Predictions")
+    st.header("Properties")
     
     # Make predictions
     polarity, solubility = st.session_state.predictor.predict(smiles)
     confidence_pol, confidence_sol = st.session_state.predictor.predict_proba(smiles)
     
-    # Display predictions in cards
-    st.subheader("Predicted Properties")
-    
     # Property cards with styling
-    with st.container():
-        st.markdown("""
-        <style>
-        .property-card {
-            background-color: #1E1E1E;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class="property-card">
+            <p class="property-title">POLARITY</p>
+            <p class="property-value">{polarity}</p>
+            <div class="confidence-bar">
+                <div class="confidence-fill" style="width: {confidence_pol}%;"></div>
+            </div>
+            <p class="confidence-text">Confidence: {confidence_pol:.1f}%</p>
+        </div>
         
-        st.markdown('<div class="property-card">', unsafe_allow_html=True)
-        st.markdown("### Polarity")
-        st.markdown(f"### {polarity}")
-        st.markdown(f"Confidence: {confidence_pol:.1f}%")
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        st.markdown('<div class="property-card">', unsafe_allow_html=True)
-        st.markdown("### Solubility")
-        st.markdown(f"### {solubility}")
-        st.markdown(f"Confidence: {confidence_sol:.1f}%")
-        st.markdown('</div>', unsafe_allow_html=True)
+        <div class="property-card">
+            <p class="property-title">SOLUBILITY</p>
+            <p class="property-value">{solubility}</p>
+            <div class="confidence-bar">
+                <div class="confidence-fill" style="width: {confidence_sol}%;"></div>
+            </div>
+            <p class="confidence-text">Confidence: {confidence_sol:.1f}%</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
