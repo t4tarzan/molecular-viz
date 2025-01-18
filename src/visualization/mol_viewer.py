@@ -40,8 +40,40 @@ class MoleculeViewer:
             var pdb = `{pdb}`;
             viewer.addModel(pdb, "pdb");
             
-            viewer.setStyle({{}}, {{"stick": {{"radius": 0.2}}}});
-            viewer.addStyle({{}}, {{"sphere": {{"radius": 0.5}}}});
+            // Clear any existing styles
+            viewer.setStyle({{}}, {{}});
+            
+            // Apply the selected style
+            if ("{style}" === "stick") {{
+                viewer.setStyle({{}}, {{
+                    "stick": {{
+                        "radius": 0.2,
+                        "color": "lightgray"
+                    }},
+                    "sphere": {{
+                        "radius": 0.3
+                    }}
+                }});
+            }} else if ("{style}" === "sphere") {{
+                viewer.setStyle({{}}, {{
+                    "sphere": {{
+                        "radius": 1.0,
+                        "colorscheme": "Jmol"
+                    }}
+                }});
+            }} else if ("{style}" === "cartoon") {{
+                viewer.setStyle({{}}, {{
+                    "cartoon": {{
+                        "color": "spectrum",
+                        "thickness": 0.8,
+                        "opacity": 0.8
+                    }},
+                    "line": {{
+                        "color": "white",
+                        "opacity": 0.6
+                    }}
+                }});
+            }}
             
             viewer.zoomTo();
             viewer.render();
