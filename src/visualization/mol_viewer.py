@@ -14,7 +14,9 @@ class MoleculeViewer:
         # Generate 3D coordinates
         mol = Chem.AddHs(mol)
         try:
+            # First embed the molecule (generate 3D coords)
             AllChem.EmbedMolecule(mol, randomSeed=42)
+            # Then optimize the geometry
             AllChem.MMFFOptimizeMolecule(mol)
             return mol
         except:
@@ -61,16 +63,15 @@ class MoleculeViewer:
                         "colorscheme": "Jmol"
                     }}
                 }});
-            }} else if ("{style}" === "cartoon") {{
+            }} else if ("{style}" === "structure") {{
                 viewer.setStyle({{}}, {{
-                    "cartoon": {{
-                        "color": "spectrum",
-                        "thickness": 0.8,
-                        "opacity": 0.8
+                    "stick": {{
+                        "radius": 0.2,
+                        "color": "lightgray"
                     }},
-                    "line": {{
-                        "color": "white",
-                        "opacity": 0.6
+                    "sphere": {{
+                        "radius": 0.5,
+                        "colorscheme": "Jmol"
                     }}
                 }});
             }}
@@ -98,8 +99,18 @@ class MoleculeViewer:
         viewer = py3Dmol.view(width=size[0], height=size[1])
         pdb = Chem.MolToPDBBlock(mol)
         viewer.addModel(pdb, "pdb")
-        viewer.setStyle({}, {"stick": {"radius": 0.2}})
-        viewer.addStyle({}, {"sphere": {"radius": 0.5}})
+        
+        if style == "stick":
+            viewer.setStyle({}, {"stick": {"radius": 0.2}})
+            viewer.addStyle({}, {"sphere": {"radius": 0.3}})
+        elif style == "sphere":
+            viewer.setStyle({}, {"sphere": {"radius": 1.0, "colorscheme": "Jmol"}})
+        elif style == "structure":
+            viewer.setStyle({}, {
+                "stick": {"radius": 0.2, "color": "lightgray"},
+                "sphere": {"radius": 0.5, "colorscheme": "Jmol"}
+            })
+            
         viewer.setBackgroundColor("black")
         viewer.zoomTo()
         return viewer

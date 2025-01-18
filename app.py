@@ -144,7 +144,7 @@ with col1:
     # Visualization options
     viz_style = st.radio(
         "Molecule style:",
-        ["stick", "sphere", "cartoon"],
+        ["stick", "sphere", "structure"],
         horizontal=True,
         key="viz_style"
     )
