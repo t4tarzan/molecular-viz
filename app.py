@@ -31,11 +31,12 @@ from src.visualization.mol_viewer import MoleculeViewer
 import py3Dmol
 
 # Load data
-data_path = root_dir.parent / 'data' / 'molecules.csv'
+data_path = root_dir / 'data' / 'molecules.csv'
 try:
     data = pd.read_csv(data_path)
 except FileNotFoundError:
-    # Fallback data if file not found
+    # Fallback data for both local and deployment
+    print(f"Could not find {data_path}, using fallback data")
     data = pd.DataFrame({
         'Molecule': ['Methane', 'Ethanol', 'Benzene', 'Acetone'],
         'SMILES': ['C', 'CCO', 'C1=CC=CC=C1', 'CC(=O)C'],
@@ -43,10 +44,10 @@ except FileNotFoundError:
         'Solubility': ['Insoluble', 'Soluble', 'Insoluble', 'Soluble']
     })
 
-# Initialize session state
+# Initialize predictor with fallback data
 if 'predictor' not in st.session_state:
     st.session_state.predictor = MolecularPropertyPredictor()
-    # Load and train the model
+    # Always fit with the current data, whether from file or fallback
     st.session_state.predictor.fit(
         data['SMILES'].values,
         data['Polarity'].values,

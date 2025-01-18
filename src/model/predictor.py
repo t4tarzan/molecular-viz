@@ -1,40 +1,52 @@
 from rdkit import Chem
-from rdkit.Chem import AllChem
+from rdkit.Chem import AllChem, rdMolDescriptors
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
 
 class MolecularPropertyPredictor:
     def __init__(self):
-        self.polarity_model = RandomForestClassifier(random_state=42)
-        self.solubility_model = RandomForestClassifier(random_state=42)
+        self.polarity_model = RandomForestClassifier(n_estimators=100, random_state=42)
+        self.solubility_model = RandomForestClassifier(n_estimators=100, random_state=42)
         self.polarity_encoder = LabelEncoder()
         self.solubility_encoder = LabelEncoder()
-        
-    def _calculate_fingerprints(self, smiles):
-        """Calculate Morgan fingerprints for a molecule."""
+        # Initialize Morgan fingerprint generator
+        self.morgan_gen = rdMolDescriptors.GetMorganGenerator(2, 1024)
+    
+    def _get_fingerprint(self, smiles):
+        """Generate Morgan fingerprint for a molecule."""
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             return None
-        return list(AllChem.GetMorganFingerprintAsBitVect(mol, 2, 2048))
+        # Use Morgan Generator instead of direct fingerprint calculation
+        return list(self.morgan_gen.GetFingerprint(mol))
     
-    def fit(self, X_smiles, y_polarity, y_solubility):
+    def fit(self, smiles_list, polarity_labels, solubility_labels):
         """Train the models on the provided data."""
-        # Prepare features
-        X = [self._calculate_fingerprints(smiles) for smiles in X_smiles]
-        X = [x for x in X if x is not None]
+        # Generate fingerprints
+        fingerprints = []
+        valid_indices = []
         
-        # Encode labels
-        y_polarity_encoded = self.polarity_encoder.fit_transform(y_polarity)
-        y_solubility_encoded = self.solubility_encoder.fit_transform(y_solubility)
+        for i, smiles in enumerate(smiles_list):
+            fp = self._get_fingerprint(smiles)
+            if fp is not None:
+                fingerprints.append(fp)
+                valid_indices.append(i)
+        
+        if not fingerprints:
+            raise ValueError("No valid molecules found in the training data")
+        
+        # Convert labels
+        polarity_labels = self.polarity_encoder.fit_transform(polarity_labels[valid_indices])
+        solubility_labels = self.solubility_encoder.fit_transform(solubility_labels[valid_indices])
         
         # Train models
-        self.polarity_model.fit(X, y_polarity_encoded)
-        self.solubility_model.fit(X, y_solubility_encoded)
+        self.polarity_model.fit(fingerprints, polarity_labels)
+        self.solubility_model.fit(fingerprints, solubility_labels)
     
     def predict(self, smiles):
-        """Predict properties for a given SMILES string."""
-        fingerprint = self._calculate_fingerprints(smiles)
+        """Predict properties for a single SMILES string."""
+        fingerprint = self._get_fingerprint(smiles)
         if fingerprint is None:
             return None, None
         
@@ -49,13 +61,13 @@ class MolecularPropertyPredictor:
         return polarity_pred, solubility_pred
     
     def predict_proba(self, smiles):
-        """Predict probabilities for properties."""
-        fingerprint = self._calculate_fingerprints(smiles)
+        """Get prediction probabilities for a single SMILES string."""
+        fingerprint = self._get_fingerprint(smiles)
         if fingerprint is None:
-            return None, None
+            return 0.0, 0.0
         
-        # Get prediction probabilities
-        polarity_proba = np.max(self.polarity_model.predict_proba([fingerprint]))
-        solubility_proba = np.max(self.solubility_model.predict_proba([fingerprint]))
+        # Get probabilities
+        polarity_proba = np.max(self.polarity_model.predict_proba([fingerprint])) * 100
+        solubility_proba = np.max(self.solubility_model.predict_proba([fingerprint])) * 100
         
         return polarity_proba, solubility_proba
