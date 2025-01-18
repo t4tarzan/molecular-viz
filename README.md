@@ -43,16 +43,19 @@ molecular-viz/
 ```
 
 ## Rollback Version
-Latest working version: commit `41142f1` (2025-01-19)
+Latest working version: commit `363911f` (2025-01-19)
 Features:
 - Proper sidebar width and layout
 - Working 3D visualization for stick and sphere modes
-- Correct property predictions
+- Improved property predictions UI:
+  - Compact cards with progress bars
+  - Visual confidence indicators
+  - Optimized spacing and typography
 - Clean code organization
 
 To rollback to this version:
 ```bash
-git reset --hard 41142f1
+git reset --hard 363911f
 git clean -fd
 ```
 
