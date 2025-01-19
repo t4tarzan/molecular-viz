@@ -27,10 +27,9 @@ class MolecularPropertyPredictor:
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             return None
-        # Suppress deprecation warning
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            return list(AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=1024))
+        # Use GetMorganFingerprintAsBitVect with explicit import
+        from rdkit.Chem import rdMolDescriptors
+        return list(rdMolDescriptors.GetMorganFingerprintAsBitVect(mol, 2, nBits=1024))
     
     def fit(self, smiles_list, labels_dict):
         """Train the models on the provided data."""
