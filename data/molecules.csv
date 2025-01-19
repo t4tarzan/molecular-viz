@@ -1,16 +1,16 @@
 Molecule,SMILES,Polarity,Solubility,Reactivity,Stability
-Methane,[CH4],Non-Polar,Insoluble,Low,Stable
+Methane,C,Non-Polar,Insoluble,Low,Stable
 Ethane,CC,Non-Polar,Insoluble,Low,Stable
 Ethene,C=C,Non-Polar,Insoluble,High,Moderate
 Ethanol,CCO,Polar,Soluble,Medium,Stable
 Benzene,c1ccccc1,Non-Polar,Insoluble,Low,Stable
 Acetic Acid,CC(=O)O,Polar,Soluble,Medium,Stable
 Acetylene,C#C,Non-Polar,Insoluble,High,Moderate
-Water,[OH2],Polar,Soluble,Low,Stable
-Ammonia,[NH3],Polar,Soluble,Medium,Stable
+Water,O,Polar,Soluble,Low,Stable
+Ammonia,N,Polar,Soluble,Medium,Stable
 Propane,CCC,Non-Polar,Insoluble,Low,Stable
-Glucose,C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O,Polar,Soluble,Medium,Moderate
+Glucose,C([C@@H]1O[C@H](O)[C@H](O)[C@@H](O)[C@@H]1O)O,Polar,Soluble,Medium,Moderate
 Chloroform,ClC(Cl)Cl,Non-Polar,Insoluble,Medium,Moderate
-Phenol,c1ccc(cc1)O,Polar,Slightly Soluble,Medium,Stable
+Phenol,Oc1ccccc1,Polar,Slightly Soluble,Medium,Stable
 Acetaldehyde,CC=O,Polar,Soluble,High,Moderate
 Ethylene,C=C,Non-Polar,Insoluble,High,Moderate

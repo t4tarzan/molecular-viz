@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3Dmol.js Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://3dmol.org/build/3Dmol-min.js"></script>
+    <style>
+        .viewer_3Dmoljs {
+            width: 800px;
+            height: 500px;
+            position: relative;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="viewer" class="viewer_3Dmoljs"></div>
+    <script>
+        // PDB data from our test
+        let pdb = `HETATM    1  C1  UNL     1      -0.022   0.003   0.017  1.00  0.00           C  
+HETATM    2  H1  UNL     1      -0.666   0.888  -0.101  1.00  0.00           H  
+HETATM    3  H2  UNL     1      -0.378  -0.858  -0.588  1.00  0.00           H  
+HETATM    4  H3  UNL     1       0.096  -0.315   1.064  1.00  0.00           H  
+HETATM    5  H4  UNL     1       0.970   0.281  -0.391  1.00  0.00           H  
+CONECT    1    2    3    4    5
+END`;
+
+        // Initialize viewer
+        let viewer = $3Dmol.createViewer("viewer", {
+            backgroundColor: "black"
+        });
+        
+        // Add the molecule
+        viewer.addModel(pdb, "pdb");
+        
+        // Style the molecule
+        viewer.setStyle({}, {
+            "stick": {
+                "radius": 0.15,
+                "colorscheme": "Jmol"
+            },
+            "sphere": {
+                "radius": 0.4,
+                "colorscheme": "Jmol"
+            }
+        });
+        
+        // Zoom and render
+        viewer.zoomTo();
+        viewer.render();
+    </script>
+</body>
+</html>

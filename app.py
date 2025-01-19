@@ -107,6 +107,26 @@ st.markdown("""
 This application uses AI to predict and visualize molecular properties. Upload or select a molecule to see its 3D structure and predicted properties.
 """)
 
+# Function to convert SMILES to molecular formula
+def get_molecular_formula(smiles):
+    """Convert SMILES to molecular formula for display."""
+    formulas = {
+        'C': 'CH4',
+        'CC': 'CH3CH3',
+        'C=C': 'CH2=CH2',
+        'CCO': 'CH3CH2OH',
+        'c1ccccc1': 'C6H6',
+        'CC(=O)O': 'CH3COOH',
+        'C#C': 'HC≡CH',
+        'O': 'H2O',
+        'N': 'NH3',
+        'CCC': 'CH3CH2CH3',
+        'ClC(Cl)Cl': 'CHCl3',
+        'c1ccc(cc1)O': 'C6H5OH',
+        'CC=O': 'CH3CHO'
+    }
+    return formulas.get(smiles, smiles)
+
 # Sidebar for molecule input
 with st.sidebar:
     st.title("Molecule Input")
@@ -132,7 +152,10 @@ with st.sidebar:
         )
 
     st.markdown("---")
-    st.markdown("**SMILES:**")
+    st.subheader("Molecular Formula:")
+    st.code(get_molecular_formula(smiles), language=None)
+    st.markdown("---")
+    st.subheader("SMILES:")
     st.code(smiles)
 
 # Main content area with two columns

@@ -45,6 +45,44 @@ molecular-viz/
 └── requirements.txt       # Project dependencies
 ```
 
+## Recent Updates
+
+### Molecular Visualization Improvements (January 19, 2025)
+
+#### Key Changes
+1. **Enhanced Hydrogen Visualization**
+   - Added `keepH: true` option when loading molecules in 3Dmol.js
+   - Implemented separate styling for hydrogen atoms with improved visibility
+   - Fixed issues with hydrogen display in methane and other simple molecules
+
+2. **Atom-Specific Styling**
+   - Carbon atoms: Gray (sphere radius: 0.5-0.8, stick radius: 0.2)
+   - Hydrogen atoms: White (sphere radius: 0.3-0.4, stick radius: 0.1)
+   - Oxygen atoms: Red (sphere radius: 0.5-0.8, stick radius: 0.2)
+   - Nitrogen atoms: Blue (sphere radius: 0.5-0.8, stick radius: 0.2)
+
+3. **Visualization Modes**
+   - Stick mode: Shows all atoms with bonds
+   - Sphere mode: Emphasizes atomic positions
+   - Structure mode: Uses Jmol color scheme for standard representation
+
+4. **Testing and Validation**
+   - Created `test_methane.py` for isolated testing of molecular visualization
+   - Verified correct display of simple molecules (methane, water)
+   - Confirmed proper visualization of complex molecules (glucose)
+
+#### Technical Details
+- Using 3Dmol.js for molecular visualization
+- RDKit for molecular processing and 3D coordinate generation
+- SMILES notation for molecular representation
+- PDB format for 3D structure visualization
+
+#### Known Issues Resolved
+- Fixed missing hydrogen atoms in visualization
+- Improved bond visibility between atoms
+- Enhanced contrast with black background
+- Corrected atomic radii for better proportions
+
 ## Rollback Versions
 Latest stable version: commit `fcaa34c` (2025-01-19)
 Features:
