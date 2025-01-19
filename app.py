@@ -63,6 +63,44 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# Add custom CSS to adjust layout
+st.markdown("""
+<style>
+    .main > div {
+        padding-top: 1rem;
+    }
+    .stApp > header {
+        height: 0px;
+    }
+    div[data-testid="stSidebarNav"] {
+        display: none;
+    }
+    .css-1544g2n.e1fqkh3o4 {
+        padding-top: 0rem;
+    }
+    .block-container {
+        padding-top: 1rem;
+        max-width: 100%;
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .css-1y4p8pa {
+        padding-top: 0rem;
+    }
+    .css-1r6slb0.e1tzin5v2 {
+        gap: 0rem;
+    }
+    /* Remove padding from columns */
+    div.css-12w0qpk.e1tzin5v2 {
+        padding: 0 !important;
+        gap: 0 !important;
+    }
+    div.css-1r6slb0.e1tzin5v2 {
+        padding: 0 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Add src directory to path
 root_dir = Path(__file__).parent
 sys.path.append(str(root_dir))
@@ -102,7 +140,7 @@ if 'predictor' not in st.session_state:
     )
 
 # Title and description
-st.title("🧬 AI Molecular Property Visualizer")
+st.markdown("# 🧬 AI Molecular Property Visualizer")
 st.markdown("""
 This application uses AI to predict and visualize molecular properties. Upload or select a molecule to see its 3D structure and predicted properties.
 """)
@@ -127,11 +165,12 @@ def get_molecular_formula(smiles):
     }
     return formulas.get(smiles, smiles)
 
-# Sidebar for molecule input
-with st.sidebar:
-    st.title("Molecule Input")
-    
-    # Input method selection
+# Create three columns with exact proportions
+left_col, middle_col, right_col = st.columns([20, 60, 20])
+
+with left_col:
+    # Molecule Input Section
+    st.subheader("Molecule Input")
     input_type = st.radio(
         "Choose input method:",
         ["Select from database", "Enter SMILES"],
@@ -158,10 +197,8 @@ with st.sidebar:
     st.subheader("SMILES:")
     st.code(smiles)
 
-# Main content area with two columns
-col1, col2 = st.columns([3, 1])
-
-with col1:
+with middle_col:
+    # 3D Visualization Section
     st.header("3D Visualization")
     
     # Visualization options
@@ -198,7 +235,8 @@ with col1:
     except Exception as e:
         st.error(f"Error in 3D visualization: {str(e)}")
 
-with col2:
+with right_col:
+    # Properties Section
     st.header("Properties")
     
     # Make predictions

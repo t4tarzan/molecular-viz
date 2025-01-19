@@ -1,0 +1,20 @@
+[theme]
+primaryColor = "#F63366"
+backgroundColor = "#1E1E1E"
+secondaryBackgroundColor = "#252526"
+textColor = "#FAFAFA"
+
+[server]
+enableXsrfProtection = false
+
+[browser]
+gatherUsageStats = false
+
+[ui]
+hideSidebarNav = true
+
+[theme.sidebar]
+width = "18rem"  # Reduced from 21rem
+
+[layout]
+padding = "0rem"  # Minimize padding
